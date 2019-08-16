@@ -1,0 +1,66 @@
+h1{
+    text-align:center;
+    margin-bottom: 40px;
+}
+
+.teams{
+    display:flex;
+    justify-content: center;
+}
+
+.teams div{
+    border:1px #ccc solid;
+    padding:10px;
+    margin-bottom: 5px;
+}
+
+.teams h2{
+    text-align:center;
+    font-weight:600;
+}
+
+.team1{
+    margin-right: 10px;
+    justify-content: left;
+    width:180px;
+}
+
+.team2{
+    margin-left: 10px;
+    justify-content: right;
+    width:180px;
+
+}
+
+.submit-button{
+    margin:auto;
+    margin-top: 10px;
+    max-width: 380px;
+}
+
+.custom-select{
+    margin-bottom: 10px;
+}
+
+#new-player-form{
+    margin-top: 10px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#player-name{
+    width: 80%;
+}
+
+#player-submit{
+    width: 19%;
+}
+
+.alert{
+    text-align: center;
+}
+
+#bottom{
+    margin-bottom: 50px;
+}
+

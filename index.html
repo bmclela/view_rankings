@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/6e3cd43b3a.js"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Ranking App</title>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="display-4">
+            <i class="fas fa-futbol text-primary"></i>
+            <span class="text-secondary">Foosball</span><span class="text-primary"> Standings</span>
+        </h1>
+        <table class="table table-striped mt-5">
+            <thread>
+                <tr class = "table-primary">
+                    <th>Rank</th>
+                    <th>Team</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Elo</th>
+                </tr>
+            </thread>
+            <tbody id="team-list"></tbody>
+        </table>
+        <div id="bottom"></div>
+    </div>
+    <script src="appv2.js"></script>
+</body>
+
+</html>
