@@ -98,9 +98,9 @@ class UI {
     //Updates standings in UI
     static updateTeamList() {
         const list = document.querySelector('#team-list');
-
+        
         list.innerHTML = '';
-
+        
         for (let i=0; i<teamList.length; i++) {
             UI.addTeamtoList(teamList[i], i+1);
         }
@@ -121,36 +121,6 @@ class UI {
         `;
 
         list.appendChild(row);
-    }
-
-    //NEW
-    static updatePlayers() {
-        for (let i = 1; i <= 4; i++) {
-            const list = document.querySelector(`#player${i}`);
-            const length = list.options.length;
-
-            for (let i = 1; i < length; i++) {
-                list.options[1] = null;
-            }
-        }
-
-        for (let i=0; i<playerList.length; i++) {
-            UI.addPlayertoList(playerList[i]);
-        }
-    }
-
-    //Adds each player to UI
-    static addPlayertoList(player) {
-        for (let i=1; i<=4; i++) {
-            const list = document.querySelector(`#player${i}`);
-    
-            const element = document.createElement('option');
-    
-            element.value = player;
-            element.text = player;
-    
-            list.appendChild(element);
-        }
     }
 
     //Shows alert
@@ -185,20 +155,39 @@ class UI {
 //RESET PLAYERS
 //Store.deletePlayers();
 
+//Get data from web page
+/*
+var testing;
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'sample.txt', true);
+xhr.onreadystatechange = function(){
+    if(this.status == 200){
+        testing = JSON.parse(this.responseText);
+    }
+}
+xhr.send();
+*/
+var xhr = new XMLHttpRequest(),
+    method = "GET",
+    url = "dataStore.txt";
+
+xhr.open(method, url, true);
+xhr.onreadystatechange = function () {
+  if(xhr.readyState === 4 && xhr.status === 200) {
+    teamList = JSON.parse(this.responseText);
+    UI.updateTeamList();
+  }
+};
+xhr.send();
+
 //Constant to determine changes over time
 const K = 50;
 
 //Grab teams from storage
 var teamList = Store.getTeams();
+//var teamList = Store.getTeams();
 UI.updateTeamList();
 
-//Hide Add New Player
-const x = document.getElementById("new-player-form");
-x.style.display = "none";
-
-//Get players
-var playerList = Store.getPlayers();
-UI.updatePlayers();
 
 /********************************************************************************************************** */
 //Event Listeners
@@ -207,77 +196,6 @@ UI.updatePlayers();
 //Event: Display team rankings
 document.addEventListener('DOMContentLoaded', UI.updateTeamList);
 //document.addEventListener('DOMContentLoaded', UI.updatePlayers);
-
-//Event: Add game
-document.querySelector('#team-form').addEventListener('submit', (e) => {
-    //Prevent actual submit
-    e.preventDefault();
-
-    //Set teamlist to stored teams
-    teamList = Store.getTeams();
-
-    //Get form values
-    var e = document.getElementById("player1");
-    const player1 = e.options[e.selectedIndex].value;
-    var e = document.getElementById("player2");
-    const player2 = e.options[e.selectedIndex].value;
-    var e = document.getElementById("player3");
-    const player3 = e.options[e.selectedIndex].value;
-    var e = document.getElementById("player4");
-    const player4 = e.options[e.selectedIndex].value;
-
-    //Validate
-    if (!validateGame(player1, player2, player3, player4)) {
-        UI.showAlert('Invalid Input', 'danger');
-    } else {
-        //Get team names
-        const team1Name = getTeamName(player1, player2);
-        const team2Name = getTeamName(player3, player4);
-
-        //Add teams if they don't exist
-        addNewTeam(team1Name);
-        addNewTeam(team2Name);
-
-        //Calculates new team's elo ratings
-        calculateElo(team1Name, team2Name);
-
-        //Sorts teams by elo
-        sortTeams();
-
-        //Updates then stores teams
-        Store.updateTeams();
-
-        //update UI
-        UI.updateTeamList();
-        
-        //const message = '${team1Name} beat ${team2Name}!';
-        //Show success
-        UI.showAlert(`${team1Name} beat ${team2Name}!`, 'info');
-
-        //Clear fields        
-        UI.clearFields();
-    }
-}) 
-
-document.querySelector('#new-player-form').addEventListener('submit', (e) => {
-    //Keep open
-    e.preventDefault();
-
-    //Hide form
-    const x = document.getElementById("new-player-form");
-    x.style.display = "none";
-
-    //Add new player
-    const playerName = document.querySelector("#player-name").value;
-    if (!validatePlayerName(playerName)) {
-        UI.showAlert('Invalid Input', 'danger');
-    } else {
-        Store.addPlayer(playerName);
-        UI.addPlayertoList(playerName);
-        UI.showAlert(`New Player Added: ${playerName}`, 'info');
-    }
-})
-
 
 /********************************************************************************************************** */
 //Functions
